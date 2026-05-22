@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Duul — Smart Travel Companion for Somali Travelers</title>
+  <style>
+    :root {
+      --bg: #0E0E13;
+      --bg2: #16161E;
+      --bg3: #1E1E2A;
+      --card: #1C1C26;
+      --card2: #22222E;
+      --blue: #2D7DD2;
+      --blue-light: #4A9FE8;
+      --blue-glow: rgba(45,125,210,0.25);
+      --teal: #0D9488;
+      --white: #FFFFFF;
+      --off-white: #F1F5F9;
+      --text: #E8EAF0;
+      --text-muted: #8B8FA8;
+      --border: rgba(255,255,255,0.07);
+      --green: #10B981;
+      --red: #F87171;
+      --orange: #FBBF24;
+      --gold: #F59E0B;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    nav { background: rgba(14,14,19,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; position: sticky; top: 0; z-index: 100; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-text { font-size: 1.5rem; font-weight: 800; color: var(--white); letter-spacing: -0.5px; }
+    .logo-sub { font-size: 0.6rem; color: var(--text-muted); font-weight: 400; letter-spacing: 1px; text-transform: uppercase; display: block; margin-top: -4px; }
+    .nav-links { display: flex; gap: 0.25rem; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 0.88rem; font-weight: 500; transition: all 0.2s; cursor: pointer; }
+    .nav-links a:hover, .nav-links a.active { background: rgba(45,125,210,0.15); color: var(--blue-light); }
+    .announcement { background: linear-gradient(90deg, rgba(45,125,210,0.3), rgba(13,148,136,0.3)); border-bottom: 1px solid rgba(45,125,210,0.2); color: #90CAF9; padding: 9px 2rem; text-align: center; font-size: 0.82rem; font-weight: 500; }
+    .hero { position: relative; min-height: 580px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 5rem 2rem 6rem; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(45,125,210,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 80% 20%, rgba(13,148,136,0.12) 0%, transparent 60%), var(--bg); z-index: 0; }
+    .hero-bg::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 60px 60px; }
+    .hero-content { position: relative; z-index: 1; max-width: 620px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(45,125,210,0.15); border: 1px solid rgba(45,125,210,0.3); color: var(--blue-light); font-size: 0.78rem; font-weight: 600; padding: 6px 16px; border-radius: 20px; margin-bottom: 1.75rem; }
+    .hero h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 900; line-height: 1.12; margin-bottom: 1.25rem; letter-spacing: -1.5px; color: var(--white); }
+    .hero h1 span { background: linear-gradient(135deg, var(--blue-light), #67E8F9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { font-size: 1.05rem; color: var(--text-muted); max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.7; }
+    .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--blue); color: white; border: none; padding: 14px 28px; border-radius: 12px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 0 30px rgba(45,125,210,0.4); }
+    .btn-primary:hover { background: var(--blue-light); transform: translateY(-2px); box-shadow: 0 0 40px rgba(45,125,210,0.6); }
+    .btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--border); padding: 14px 28px; border-radius: 12px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .btn-ghost:hover { background: rgba(255,255,255,0.05); color: var(--white); border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
+    .stats-bar { display: flex; justify-content: center; gap: 0; max-width: 700px; margin: 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; position: relative; z-index: 1; margin-top: -30px; margin-bottom: 3rem; }
+    .stat { flex: 1; padding: 1.25rem 1rem; text-align: center; border-right: 1px solid var(--border); }
+    .stat:last-child { border-right: none; }
+    .stat-number { font-size: 1.6rem; font-weight: 800; color: var(--blue-light); }
+    .stat-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+    .section { padding: 3rem 2rem; max-width: 1100px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 2.5rem; }
+    .section-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--blue-light); margin-bottom: 0.6rem; }
+    .section-header h2 { font-size: 1.85rem; font-weight: 800; letter-spacing: -0.5px; color: var(--white); }
+    .section-header p { color: var(--text-muted); margin-top: 0.5rem; font-size: 0.95rem; }
+    .tabs { display: flex; justify-content: center; gap: 0; margin-bottom: 1.75rem; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 5px; width: fit-content; margin-left: auto; margin-right: auto; }
+    .tab-btn { padding: 10px 28px; border-radius: 9px; border: none; background: transparent; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; color: var(--text-muted); }
+    .tab-btn.active { background: var(--blue); color: white; box-shadow: 0 0 20px rgba(45,125,210,0.3); }
+    .tab-btn:hover:not(.active) { color: var(--text); }
+    .flights-container { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .flights-toolbar { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; background: var(--card2); }
+    .flights-toolbar-title { font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; color: var(--white); }
+    .live-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; box-shadow: 0 0 8px var(--green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--green); } 50% { opacity: 0.5; box-shadow: 0 0 3px var(--green); } }
+    .search-input { padding: 8px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.88rem; outline: none; background: var(--bg3); color: var(--text); transition: border-color 0.2s; width: 200px; }
+    .search-input::placeholder { color: var(--text-muted); }
+    .search-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(45,125,210,0.15); }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: rgba(255,255,255,0.02); }
+    th { padding: 11px 16px; text-align: left; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+    td { padding: 14px 16px; font-size: 0.88rem; border-bottom: 1px solid var(--border); vertical-align: middle; color: var(--text); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(45,125,210,0.05); }
+    .airline-logo { width: 30px; height: 30px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.65rem; color: white; margin-right: 8px; vertical-align: middle; }
+    .flight-num { font-weight: 700; color: var(--blue-light); }
+    .city { font-weight: 600; color: var(--white); }
+    .city-code { font-size: 0.72rem; color: var(--text-muted); }
+    .time { font-weight: 700; font-size: 1rem; color: var(--white); }
+    .gate-badge { display: inline-block; background: rgba(255,255,255,0.06); border: 1px solid var(--border); padding: 3px 10px; border-radius: 5px; font-weight: 700; font-size: 0.82rem; color: var(--text); }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+    .status-ontime { background: rgba(16,185,129,0.15); color: #6EE7B7; }
+    .status-delayed { background: rgba(251,191,36,0.15); color: #FCD34D; }
+    .status-boarding { background: rgba(45,125,210,0.2); color: #93C5FD; }
+    .status-landed { background: rgba(255,255,255,0.07); color: var(--text-muted); }
+    .status-departed { background: rgba(167,139,250,0.15); color: #C4B5FD; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .section-divider { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 0.5rem 0; }
+    .transport-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .transport-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.4rem; display: flex; align-items: center; gap: 1.25rem; transition: border-color 0.2s, background 0.2s; }
+    .transport-item:hover { border-color: rgba(45,125,210,0.3); background: var(--card2); }
+    .transport-icon { font-size: 1.6rem; width: 50px; height: 50px; background: var(--bg3); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid var(--border); }
+    .transport-info h4 { font-weight: 700; color: var(--white); margin-bottom: 2px; }
+    .transport-info p { font-size: 0.83rem; color: var(--text-muted); }
+    .transport-price { margin-left: auto; font-weight: 800; color: var(--blue-light); font-size: 0.95rem; white-space: nowrap; }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.6rem; transition: border-color 0.2s, transform 0.2s; }
+    .card:hover { border-color: rgba(45,125,210,0.3); transform: translateY(-2px); }
+    .card-icon { font-size: 2rem; margin-bottom: 0.9rem; }
+    .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--white); }
+    .card p, .card li { font-size: 0.86rem; color: var(--text-muted); line-height: 1.75; }
+    .card ul { padding-left: 1.1rem; }
+    .tips-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; }
+    .tip-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem; display: flex; gap: 1rem; transition: border-color 0.2s; }
+    .tip-item:hover { border-color: rgba(45,125,210,0.25); }
+    .tip-number { width: 30px; height: 30px; background: var(--blue); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0; box-shadow: 0 0 12px rgba(45,125,210,0.3); }
+    .tip-item h4 { font-weight: 700; font-size: 0.88rem; margin-bottom: 0.25rem; color: var(--white); }
+    .tip-item p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+    .airlines-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
+    .airline-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem; display: flex; align-items: center; gap: 1rem; transition: border-color 0.2s, background 0.2s; }
+    .airline-card:hover { border-color: rgba(45,125,210,0.3); background: var(--card2); }
+    .airline-badge { width: 46px; height: 46px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.72rem; color: white; flex-shrink: 0; }
+    .airline-card h4 { font-weight: 700; font-size: 0.92rem; color: var(--white); }
+    .airline-card p { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+    .airline-new { border-color: rgba(45,125,210,0.4) !important; background: rgba(45,125,210,0.08) !important; }
+    .update-time { font-size: 0.78rem; color: var(--text-muted); }
+    footer { background: var(--bg2); border-top: 1px solid var(--border); color: var(--text-muted); text-align: center; padding: 2rem; font-size: 0.82rem; margin-top: 2rem; }
+    footer strong { color: var(--blue-light); }
+    @media (max-width: 600px) { .nav-links { display: none; } th:nth-child(5), td:nth-child(5), th:nth-child(4), td:nth-child(4) { display: none; } .hero h1 { font-size: 1.9rem; } .stats-bar { margin: 0 1rem 2rem; } }
+  </style>
+</head>
+<body>
+<div class="announcement">✈️ Somali Airlines has officially relaunched with 2 Airbus A320s — First flights expected 2026</div>
+<nav>
+  <a class="logo" href="#">
+    <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="dGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#48CAE4"/><stop offset="100%" style="stop-color:#2D7DD2"/></linearGradient></defs>
+      <path d="M18 15 L18 85 L45 85 C68 85 82 70 82 50 C82 30 68 15 45 15 Z M30 27 L44 27 C60 27 70 36 70 50 C70 64 60 73 44 73 L30 73 Z" fill="url(#dGrad)"/>
+      <path d="M22 58 Q50 48 78 38" stroke="url(#dGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M22 65 Q50 55 72 46" stroke="url(#dGrad)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <path d="M22 72 Q48 63 66 55" stroke="url(#dGrad)" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.35"/>
+      <g transform="translate(74, 18) rotate(35)">
+        <path d="M0 0 L-5 3 L-4 0 L-5 -3 Z" fill="url(#dGrad)"/>
+        <path d="M-3 1 L-7 4 L-7 2 Z" fill="url(#dGrad)" opacity="0.8"/>
+        <path d="M-3 -1 L-7 -4 L-7 -2 Z" fill="url(#dGrad)" opacity="0.8"/>
+        <path d="M-4.5 0.5 L-6 1.5 L-6 -0.5 L-4.5 -0.5 Z" fill="url(#dGrad)" opacity="0.6"/>
+      </g>
+    </svg>
+    <div><span class="logo-text">Duul</span><span class="logo-sub">Somalia's Travel Companion</span></div>
+  </a>
+  <div class="nav-links">
+    <a class="active" onclick="scrollTo('flights')">Flights</a>
+    <a onclick="scrollTo('transport')">Transport</a>
+    <a onclick="scrollTo('guide')">Travel Guide</a>
+    <a onclick="scrollTo('airlines')">Airlines</a>
+  </div>
+</nav>
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🇸🇴 Built for Somali Travelers</div>
+    <h1>Find Your Flight to<br/><span>Mogadishu</span></h1>
+    <p>Real-time schedules, travel guides, and everything you need — whether you're flying home or welcoming family at the airport.</p>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="document.getElementById('flights').scrollIntoView({behavior:'smooth'})">✈️ View Flights</button>
+      <button class="btn-ghost" onclick="document.getElementById('guide').scrollIntoView({behavior:'smooth'})">Travel Guide →</button>
+    </div>
+  </div>
+</div>
+<div style="max-width:1100px; margin: 0 auto; padding: 0 2rem;">
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-number">8+</div><div class="stat-label">Airlines at MGQ</div></div>
+    <div class="stat"><div class="stat-number">20+</div><div class="stat-label">Weekly Flights</div></div>
+    <div class="stat"><div class="stat-number">$1B</div><div class="stat-label">New Airport</div></div>
+    <div class="stat"><div class="stat-number">2029</div><div class="stat-label">Opens</div></div>
+  </div>
+</div>
+<div class="section" id="flights">
+  <div class="section-header">
+    <div class="section-tag">Aden Adde International · MGQ</div>
+    <h2>Flight Schedule</h2>
+    <p>Current weekly schedule for Mogadishu Airport</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('arrivals', this)">🛬&nbsp; Arrivals</button>
+    <button class="tab-btn" onclick="switchTab('departures', this)">🛫&nbsp; Departures</button>
+  </div>
+  <div class="tab-content active" id="arrivals">
+    <div class="flights-container">
+      <div class="flights-toolbar">
+        <div class="flights-toolbar-title"><div class="live-dot"></div>Arrivals — Mogadishu (MGQ)</div>
+        <div style="display:flex;align-items:center;gap:1rem;"><span class="update-time">Updated May 2026</span><input class="search-input" type="text" placeholder="Search flight or city..." oninput="filterTable('arrivals-table', this.value)"></div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table id="arrivals-table">
+          <thead><tr><th>Airline</th><th>Flight</th><th>From</th><th>Arrives</th><th>Gate</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><span class="airline-logo" style="background:#CC0001;">TK</span>Turkish Airlines</td><td class="flight-num">TK 694</td><td><span class="city">Istanbul</span><br/><span class="city-code">IST, Turkey</span></td><td class="time">06:45</td><td><span class="gate-badge">A1</span></td><td><span class="status-badge status-ontime">On Time</span></td></tr>
+            <tr><td><span class="airline-logo" style="background:#003580;">FZ</span>flydubai</td><td class="flight-num">FZ 371</td><td><span class="city">Dubai</span><br/><span class="city-code">DXB, UAE</span></td><td class="time">08:20</td><td><span class="gate-badge">A2</span></td><td><span class="status-badge status-landed">Landed</span></td></tr>
+            <tr><td><span class="airline-logo" style="background:#00205B;">ET</span>Ethiopian Airlines</td><td class="flight-num">ET 310</td><td><span class="city">Addis Ababa</span><br/><span class="city-code">ADD, Ethiopia</span></td><td class="time">09:55</td><td><span class="gate-badge">B1</span></td><td><span class="status-badge status-boarding">Boarding</span></td></tr>
+            <tr><td><span class="airline-logo" style="background:#1A6B2E;">J9</span>Jubba Airways</td><td class="flight-num">J9 401</td><td><span class="city">Nairobi</span><br/><span class="city-code">NBO, Kenya</span></td><td class="time">11:30</td><td><span class="gate-badge">B2</span></td><td><span class="status-badge status-delayed">Delayed 25m</span></td></tr>
+            <tr><td><span class="airline-logo" style="background:#8B0000;">D3</span>Daallo Airlines</td><td class="flight-num">D3 110</td><td><span class="city">Djibouti</span><br/><span class="city-code">JIB, Djibouti</span></td><td class="time">13:15</td><td><span class="gate-badge">A3</span></td><td><span class="status-badge status-ontime">On Time</span></td></tr>
+            <tr><td><span class="airline-logo" style="background:#CC0001;">TK</span>Turkish Airlines</td><td class="flight-num">TK 696</td><td><span class="city">Istanbul</span><br/><span class="city-code">IST, Turkey</span></td><td class="time">15:30</td><td><span class="gate-badge">A1</span></td><td><span class="status-badge status-ontime">On Time</span></td></tr>
+            <tr><td><span class="airline-logo" style="background:#003580;">FZ</span>flydubai</td><td class="flight-num">FZ 373</td><td><span class="city">Dubai</span><br/><span class="city-code">DXB, UAE</span></td><td class="time">18:45</td><td><span class="gate-badge">A2</span></td><td><span class="status-badge status-ontime">On Time</span></td></tr>
+            <tr><td><span class="airline-logo" style="background:#1A6B2E;">J9</span>Jubba Airways</td><td class="flight-num">J9 501</td><td><span class="city">Hargeisa</span><br/><span class="city-code">HGA, Somalia</span></td><td class="time">20:10</td><td><span class="gate-badge">B3</span></td><td><span class="status-badge status-ontime">On Time</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="tab-content" id="departures">
+    <div class="flights-container">
+      <div class="flights-toolbar">
+        <div class="flights-toolbar-title"><div class="live-dot"></div>Departures — Mogadishu (MGQ)</div>
+        <div style="display:flex;align-items:center;gap:1rem;"><span class="update-time">Updated May 2026</span><input class="search-input" type="text" placeholder="Search flight or city..." oninput="filterTable('departures-table', this.value)"></div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table id="departures-table">
+          <thead><tr><th>Airline</th><th>Flight</th><th>To</th><th>Departs</th><th>Gate</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><span class="airline-logo" style="background:#003580;">FZ</span>flydubai</td><td class="flight-num">FZ 372</td><td><span class="city">Dubai</span><br/><span class="city-code">DXB, UAE</span></td><td class="time">07:30</td><td><span class="gate-badge">A2</span></td><td><span class="status-badge status-departed">Departed</span></td></tr>
+            <tr><td><span class="airline-logo" style="background:#00205B;">ET</span>Ethiopian Airlines</td><td class="flight-num">ET 311</td><td><span class="city">Addis Ababa</span><br/><span class="city-code">ADD, Ethiopia</span></td><td class="time">10:40</td><td><span class="gate-badge">B1</span></td><td><span class="status-badge status-boarding">Boarding</span></td></tr>
+            <tr><td><span class="airline-logo" style="background:#8B0000;">D3</span>Daallo Airlines</td><td class="flight-num">D3 111</td><td><span class="city">Djibouti</span><br/><span class="city-code">JIB, Djibouti</span></td><td class="time">12:00</td><td><span class="gate-badge">A3</span></td><td><span class="status-badge status-ontime">On Time</span></td></tr>
+            <tr><td><span class="airline-logo" style="background:#1A6B2E;">J9</span>Jubba Airways</td><td class="flight-num">J9 402</td><td><span class="city">Nairobi</span><br/><span class="city-code">NBO, Kenya</span></td><td class="time">13:50</td><td><span class="gate-badge">B2</span></td><td><span class="status-badge status-ontime">On Time</span></td></tr>
+            <tr><td><span class="airline-logo" style="background:#CC0001;">TK</span>Turkish Airlines</td><td class="flight-num">TK 693</td><td><span class="city">Istanbul</span><br/><span class="city-code">IST, Turkey</span></td><td class="time">16:15</td><td><span class="gate-badge">A1</span></td><td><span class="status-badge status-ontime">On Time</span></td></tr>
+            <tr><td><span class="airline-logo" style="background:#1A6B2E;">J9</span>Jubba Airways</td><td class="flight-num">J9 502</td><td><span class="city">Hargeisa</span><br/><span class="city-code">HGA, Somalia</span></td><td class="time">18:00</td><td><span class="gate-badge">B3</span></td><td><span class="status-badge status-delayed">Delayed 15m</span></td></tr>
+            <tr><td><span class="airline-logo" style="background:#003580;">FZ</span>flydubai</td><td class="flight-num">FZ 374</td><td><span class="city">Dubai</span><br/><span class="city-code">DXB, UAE</span></td><td class="time">19:50</td><td><span class="gate-badge">A2</span></td><td><span class="status-badge status-ontime">On Time</span></td></tr>
+            <tr><td><span class="airline-logo" style="background:#CC0001;">TK</span>Turkish Airlines</td><td class="flight-num">TK 695</td><td><span class="city">Istanbul</span><br/><span class="city-code">IST, Turkey</span></td><td class="time">22:00</td><td><span class="gate-badge">A1</span></td><td><span class="status-badge status-ontime">On Time</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section-divider">
+<div class="section" id="transport">
+  <div class="section-header">
+    <div class="section-tag">Getting Around</div>
+    <h2>Transport from the Airport</h2>
+    <p>How to get to and from Aden Adde International Airport</p>
+  </div>
+  <div class="transport-list">
+    <div class="transport-item"><div class="transport-icon">🚕</div><div class="transport-info"><h4>Licensed Airport Taxis</h4><p>Available outside arrivals. Agree on the price before you get in.</p></div><div class="transport-price">$5–15</div></div>
+    <div class="transport-item"><div class="transport-icon">📱</div><div class="transport-info"><h4>Ride Apps (Caawiye / Hormuud)</h4><p>Local ride-hailing apps available in Mogadishu. Book in advance.</p></div><div class="transport-price">$3–10</div></div>
+    <div class="transport-item"><div class="transport-icon">🚗</div><div class="transport-info"><h4>Private Car / Family Pickup</h4><p>Most common for diaspora. New DARMAD Business Park has organized pickup parking.</p></div><div class="transport-price">Free</div></div>
+    <div class="transport-item"><div class="transport-icon">🏨</div><div class="transport-info"><h4>Hotel Shuttles</h4><p>Several hotels offer airport pickup. Confirm when booking your hotel.</p></div><div class="transport-price">Varies</div></div>
+  </div>
+</div>
+</div>
+<div class="section" id="guide">
+  <div class="section-header">
+    <div class="section-tag">For the Diaspora</div>
+    <h2>Travel Guide for Somali Travelers</h2>
+    <p>Everything you need to know before flying home</p>
+  </div>
+  <div class="cards-grid" style="margin-bottom:2.5rem;">
+    <div class="card"><div class="card-icon">🛂</div><h3>Arriving in Mogadishu</h3><ul><li>Somali passport holders: no visa required</li><li>Foreign nationals: visa on arrival available</li><li>Yellow fever certificate required from endemic countries</li><li>USD is widely accepted — exchange at the airport</li></ul></div>
+    <div class="card"><div class="card-icon">🧳</div><h3>Baggage & Customs</h3><ul><li>Most airlines: 23kg checked + 7kg carry-on</li><li>Declare cash over $10,000 USD</li><li>Electronics and personal items generally allowed</li><li>Wrap gifts loosely — customs may inspect</li></ul></div>
+    <div class="card"><div class="card-icon">📱</div><h3>Connectivity & Money</h3><ul><li>Hormuud SIM cards available at the airport</li><li>4G coverage strong in Mogadishu</li><li>EVC Plus mobile money is widely used</li><li>ATMs are limited — carry USD cash</li></ul></div>
+    <div class="card"><div class="card-icon">🔒</div><h3>Safety & Preparation</h3><ul><li>Register with your country's embassy on arrival</li><li>Share your itinerary with family before traveling</li><li>Use vetted transport only</li><li>Check your government's travel advisory first</li></ul></div>
+  </div>
+  <div class="section-header" style="margin-top:2.5rem;"><div class="section-tag">Pro Tips</div><h2>10 Things to Know Before You Fly</h2></div>
+  <div class="tips-list">
+    <div class="tip-item"><div class="tip-number">1</div><div><h4>Arrive at the airport early</h4><p>Allow 3 hours before departure — security and check-in can take longer.</p></div></div>
+    <div class="tip-item"><div class="tip-number">2</div><div><h4>Download your boarding pass</h4><p>Print or save a PDF backup — airport WiFi can be unreliable.</p></div></div>
+    <div class="tip-item"><div class="tip-number">3</div><div><h4>Carry small USD bills</h4><p>$1–$20 bills are useful for tips and informal transport.</p></div></div>
+    <div class="tip-item"><div class="tip-number">4</div><div><h4>Share your flight number</h4><p>Give family your exact flight number so they can track your arrival.</p></div></div>
+    <div class="tip-item"><div class="tip-number">5</div><div><h4>Check weight limits carefully</h4><p>Overweight fees at the airport are costly — check before you pack.</p></div></div>
+    <div class="tip-item"><div class="tip-number">6</div><div><h4>CIP lounge is now available</h4><p>Aden Adde's executive lounge opened Feb 2026 with expedited check-in.</p></div></div>
+    <div class="tip-item"><div class="tip-number">7</div><div><h4>Turkish Airlines flies daily</h4><p>Best connection for diaspora in Europe — often best prices via Istanbul.</p></div></div>
+    <div class="tip-item"><div class="tip-number">8</div><div><h4>flydubai connects the Gulf</h4><p>Best option if you're in UAE, Saudi Arabia, or connecting through Dubai.</p></div></div>
+    <div class="tip-item"><div class="tip-number">9</div><div><h4>Somali Airlines is back</h4><p>National carrier relaunched 2025 with 2 A320s. New routes coming 2026.</p></div></div>
+    <div class="tip-item"><div class="tip-number">10</div><div><h4>A new $1B airport is coming</h4><p>New Mogadishu International Airport expected to open 2029.</p></div></div>
+  </div>
+</div>
+<div class="section-divider">
+<div class="section" id="airlines">
+  <div class="section-header">
+    <div class="section-tag">Flying to Mogadishu</div>
+    <h2>Airlines Serving MGQ</h2>
+    <p>Current carriers flying to and from Mogadishu</p>
+  </div>
+  <div class="airlines-grid">
+    <div class="airline-card"><div class="airline-badge" style="background:#CC0001;">TK</div><div><h4>Turkish Airlines</h4><p>Daily flights via Istanbul (IST)</p></div></div>
+    <div class="airline-card"><div class="airline-badge" style="background:#003580;">FZ</div><div><h4>flydubai</h4><p>Daily flights via Dubai (DXB)</p></div></div>
+    <div class="airline-card"><div class="airline-badge" style="background:#00205B;">ET</div><div><h4>Ethiopian Airlines</h4><p>Flights via Addis Ababa (ADD)</p></div></div>
+    <div class="airline-card"><div class="airline-badge" style="background:#1A6B2E;">J9</div><div><h4>Jubba Airways</h4><p>Regional — Nairobi, Hargeisa & more</p></div></div>
+    <div class="airline-card"><div class="airline-badge" style="background:#8B0000;">D3</div><div><h4>Daallo Airlines</h4><p>Regional East Africa routes</p></div></div>
+    <div class="airline-card airline-new"><div class="airline-badge" style="background:#2D7DD2;">SA</div><div><h4>Somali Airlines ✨</h4><p>Relaunched 2025 — routes coming 2026</p></div></div>
+  </div>
+</div>
+</div>
+<footer>
+  <p>Built with ❤️ for Somali travelers everywhere &nbsp;·&nbsp; <strong>Duul</strong> — Somalia's Travel Companion</p>
+  <p style="margin-top:0.5rem;font-size:0.78rem;opacity:0.6;">Data manually curated · Not affiliated with any airline or airport · Always verify schedules directly with your airline</p>
+</footer>
+<script>
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+    btn.classList.add('active');
+  }
+  function filterTable(tableId, query) {
+    const table = document.getElementById(tableId);
+    const rows = table.querySelectorAll('tbody tr');
+    const q = query.toLowerCase();
+    rows.forEach(row => { row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none'; });
+  }
+  function scrollTo(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+  const sections = ['flights','transport','guide','airlines'];
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(id => { const el = document.getElementById(id); if (el && window.scrollY >= el.offsetTop - 100) current = id; });
+    navLinks.forEach((link, i) => { link.classList.toggle('active', sections[i] === current); });
+  });
+</script>
+</body>
+</html>
